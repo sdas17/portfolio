@@ -1,244 +1,572 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        /* Header Styles */
+        .l-header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav__logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+        }
+        
+        .nav__menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav__list {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav__item {
+            margin-right: 1rem;
+        }
+        
+        .nav__link {
+            text-decoration: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav__link:hover,
+        .nav__link.active-link {
+            background-color: #555;
+            border-radius: 5px;
+        }
+        
+        .nav__toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .nav__menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                padding: 1rem 0;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                z-index: 999;
+            }
+        
+            .nav__menu.active {
+                display: flex;
+            }
+        
+            .nav__item {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        
+            .nav__toggle {
+                display: block;
+            }
+        }
+        
+        /* Main Content Styles */
+        .home {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .home__data {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .home__title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #0056b3;
+        }
+        
+        .home__social {
+            margin-top: 2rem;
+        }
+        
+        .home__social-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        
+        .home__social-icon:hover {
+            color: #007bff;
+        }
+        
+        .home__img {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            position: relative;
+        }
+        
+        .home__blob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        
+        .home__blob-img {
+            width: 300px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* About Section Styles */
+        .about {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+        
+        .about__container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .about__img img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about__subtitle {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about__text {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        /* Skills Section Styles */
+        .skills {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+        
+        .skills__container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .skills__subtitle {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .skills__text {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .skills__data {
+            margin-bottom: 1rem;
+        }
+        
+        .skills__names {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skills__icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: #333;
+        }
+        
+        .skills__bar {
+            height: 8px;
+            background-color: #ddd;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .skills__bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+        
+        .skills__percentage {
+            font-size: 0.8rem;
+            color: #555;
+        }
+        
+        /* Work Section Styles */
+        .work {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+        
+        .work__container {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .work__item {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .work__item h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .work__item p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .work__item ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .work__item li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .footer__social {
+            margin-top: 1rem;
+        }
+        
+        .footer__icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .footer__icon:hover {
+            color: #007bff;
+        }
+        
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
+            .home {
+                flex-direction: column;
+                text-align: center;
+                height: auto;
+                padding: 2rem 20px;
+            }
+        
+            .home__data {
+                margin-bottom: 2rem;
+            }
+        
+            .home__img {
+                margin-top: 2rem;
+                justify-content: center;
+            }
+        
+            .home__title {
+                font-size: 2.5rem;
+            }
+        
+            .home__social {
+                margin-top: 1rem;
+            }
+        
+            .home__blob-img {
+                width: 200px;
+                height: auto;
+            }
+        
+            .nav__menu.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                padding: 1rem 0;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                z-index: 999;
+            }
+        
+            .skills__container {
+                grid-template-columns: 1fr;
+            }
+        
+            .about__container {
+                grid-template-columns: 1fr;
+            }
+        
+            .work__item {
+                padding: 1rem;
+            }
+        
+            .footer__social {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <a href="#" class="nav__logo">Subham</a>
+            </div>
 
-        <link rel="stylesheet" href="assets/css/styles.css">
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
 
-        <!-- =====BOX ICONS===== -->
-        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                    <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
+                    <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-        <title>Portfolio website complete</title>
-    </head>
-    <body>
-        <!--===== HEADER =====-->
-        <header class="l-header">
-            <nav class="nav bd-grid">
-                <div>
-                    <a href="#" class="nav__logo">Subham</a>
+    <!-- Main Content -->
+    <main class="l-main">
+        <!-- Home Section -->
+        <section class="home bd-grid" id="home">
+            <div class="home__data">
+                <h1 class="home__title">Hi,<br>I'am <span class="home__title-color">Subham</span><br> Fronted Developer</h1>
+                <a href="tel:9777505681" class="button">Contact</a>
+            </div>
+
+            <div class="home__social">
+                <a href="https://www.linkedin.com/in/subham-kumar-70b042166/" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
+                <a href="https://github.com/sdas17/portfolio" class="home__social-icon"><i class='bx bxl-github' ></i></a>
+            </div>
+
+            <div class="home__img">
+                <svg class="home__blob" viewBox="0 0 479 467" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <mask id="mask0" mask-type="alpha">
+                        <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
+                    </mask>
+                    <g mask="url(#mask0)">
+                        <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
+                        <image class="home__blob-img" x="50" y="60" href="assets/img/perfil.jpg"/>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about section " id="about">
+            <div class="about__container bd-grid">
+                <div class="about__img">
+                    <img src="assets/img/perfil.jpg" alt="">
                 </div>
+                
+                <div>
+                    <h2 class="about__subtitle">I'am Subham</h2>
+                    <p class="about__text">Hi, I am Subham Kumar Das. I have been working as a Front-End developer with over 3+ years of enterprise application development expertise. I have strong experience in user interface design, Front-End web development, and responsive web development. I began my career at the age of 20 by creating my own webpage. That sparked my interest and challenged me to learn more. I also completed my SSC & +2 from Kendriya Vidyalaya and my graduation from Centurion University of Technology & Management in Computer Science & Engineering (CSE).</p>
+                </div>
+            </div>
+        </section>
 
-                <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
-                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
-                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
-                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
-                        <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
-                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+        <!-- Skills Section -->
+        <section class="skills section" id="skills">
+            <div class="skills__container bd-grid">          
+                <div>
+                    <h2 class="skills__subtitle">Professional Skills</h2>
+                    <ol class="skills__text">
+                        <li>3+ years of industry experience in Web Technologies, UI Development with Enterprise-grade applications and frameworks such as Angular & Ionic.</li>
+                        <li>Hands-on experience in HTML5, CSS3, SCSS, TypeScript, Angular, React, and Node.js.</li>
+                        <li>Expertise in making Responsive Web Pages using PrimeNg, Pages UI, and Material UI.</li>
+                        <li>Hands-on working experience in Angular and React.js based Single Page Applications (SPA).</li>
+                        <li>Good experience in handling data using JSON, REST-API & RESTful web services.</li>
+                        <li>Experience working in an Agile team environment.</li>
+                        <li>Expertise in understanding the business requirement and identifying high-level scenarios.</li>
+                        <li>Responsible for the production, modification, and maintenance of the website.</li>
+                        <li>Strong problem-solving skills and coding, testing, and debugging strategies with an excellent understanding of system development methodologies, techniques, and tools.</li>
+                        <li>Proactive and highly motivated team player with strong listening, communication, analytical, organizational, and time management skills.</li>
+                        <li>Positive attitude towards learning new technologies.</li>
+                    </ol>
+                </div>
+                
+                <div>              
+                    <img src="assets/img/work3.jpg" alt="" class="skills__img">
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Section -->
+        <section class="work section" id="work">
+            <div class="work__container bd-grid">
+                <!-- KPI Application -->
+                <div class="work__item">
+                    <h3>KPI Application</h3>
+                    <p><strong>Environment:</strong> React.js 18, MongoDB, Node.js</p>
+                    <p><strong>Duration:</strong> August 2023 - Present</p>
+                    <p><strong>Role:</strong> React Developer</p>
+                    <p>
+                        KPI application (Key Performance Index) is used to monitor employee performance to optimize workforce management. By tracking key metrics such as productivity, efficiency, and goal attainment, it provides valuable insights for performance evaluation and improvement strategies. Based on data, this approach enhances decision-making, fosters accountability, and ultimately drives organizational success.
+                    </p>
+                    <p><strong>Responsibilities:</strong></p>
+                    <ul>
+                        <li>Involved in various phases of Software Development Life Cycle (SDLC) such as requirement gathering, data modeling, analysis, architecture design and development for the project.</li>
+                        <li>Created Web Application using React JS, JavaScript, PrimeReact, Material UI.</li>
+                        <li>Applied optimization techniques to reduce page size and load times to enhance user experience. Familiar with creating reusable components and custom hooks.</li>
+                        <li>Using One-way data flow, Virtual DOM, JSX concepts created interactive UI’s.</li>
+                        <li>Used React-Router to turn an application into a Single Page Application.</li>
                     </ul>
                 </div>
-
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class='bx bx-menu'></i>
+            
+                <!-- Nafarm -->
+                <div class="work__item">
+                    <h3>Nafarm</h3>
+                    <p><strong>Role:</strong> Angular Developer</p>
+                    <p><strong>Duration:</strong> March 2022 to July 2023</p>
+                    <ul>
+                        <li>Participate in daily stand-up calls for backlog updates</li>
+                        <li>Work with Back-End Developers to integrate REST services to the Angular application</li>
+                        <li>Developed the responsive web application using Angular</li>
+                        <li>Designing screens based on requirement & standards</li>
+                        <li>Worked on bug fixing and enhancements</li>
+                        <li>Responsible for giving support to the team when they need help</li>
+                        <li>Used pre-defined Pipes & Directives to manipulate data</li>
+                    </ul>
+                    <p><strong>Environment:</strong> Angular 9, Prime-Ng, Spring Boot, My-SQL, Postman, Mars (Git), Ionic</p>
                 </div>
-            </nav>
-        </header>
-
-        <main class="l-main">
-            <!--===== HOME =====-->
-            <section class="home bd-grid" id="home">
-                <div class="home__data">
-                    <h1 class="home__title">Hi,<br>I'am <span class="home__title-color">Subham</span><br> Web Designer</h1>
-
-                    <a href="#" class="button">Contact</a>
+            
+                <!-- AMCI Doppler -->
+                <div class="work__item">
+                    <h3>AMCI Doppler</h3>
+                    <p><strong>Role:</strong> Full Stack Developer</p>
+                    <p><strong>Duration:</strong> June 2021 to January 2022</p>
+                    <p>
+                        AMCI Doppler is a scheduling application mainly that provides services in the US. The core objective of this project is to keep contactless and at-home services for end users. It is used at various automotive dealerships used by internal employees. We have Dispatchers (employees) in the dealerships that can create, update, and cancel appointments. These appointments can be for a test-drive appointment and/or for a pick-up or a drop-off for a service appointment. The application has a Calendar view to show the appointments. The application has search functionality and filtering based on various criteria. The application also has PowerBI reports embedded into the application for reporting purposes.
+                    </p>
+                    <p><strong>Environment:</strong> React JS, ANT Design, Prime React, MongoDB, Node JS, AWS</p>
+                    <p><strong>Responsibilities:</strong></p>
+                    <ul>
+                        <li>Involved in various phases of Software Development Life Cycle (SDLC) such as requirement gathering, data modeling, analysis, architecture design and development for the project.</li>
+                        <li>Created Web Application using React JS, JavaScript, PrimeReact, Material UI.</li>
+                        <li>Created different dynamic behavioral functionalities to the web pages.</li>
+                        <li>Participated in performance analysis, design, development, and testing.</li>
+                        <li>Worked with business users and operations teams to understand business needs and address production questions.</li>
+                        <li>Consumed RESTFUL API to handle the requests and responses.</li>
+                        <li>Produced multiple visual elements of web applications by translating UI/UX design wireframes into code, producing high markup using HTML5 and CSS3.</li>
+                        <li>Worked in using React JS components, State, Props, Forms, Events, Router, Hooks etc.</li>
+                        <li>Used Agile Development methodologies of software development.</li>
+                    </ul>
                 </div>
-
-                <div class="home__social">
-                    <a href="https://www.linkedin.com/in/subham-kumar-70b042166/" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
-                    <!-- <a href="" class="home__social-icon"><i class='bx bxl-behance' ></i></a> -->
-                    <a href="https://github.com/sdas17/portfolio" class="home__social-icon"><i class='bx bxl-github' ></i></a>
-                </div>
-
-                <div class="home__img">
-                    <svg class="home__blob" viewBox="0 0 479 467" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <mask id="mask0" mask-type="alpha">
-                            <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
-                        </mask>
-                        <g mask="url(#mask0)">
-                            <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
-                            <image class="home__blob-img" x="50" y="60" href="assets/img/perfil.jpg"/>
-                        </g>
-                    </svg>
-                </div>
-            </section>
-
-            <!--===== ABOUT =====-->
-            <section class="about section " id="about">
-                <h2 class="section-title">About</h2>
-
-                <div class="about__container bd-grid">
-                    <div class="about__img">
-                        <img src="assets/img/perfil.jpg" alt="">
-                    </div>
-                    
-                    <div>
-                        <h2 class="about__subtitle">I'am Subham</h2>
-                        <p class="about__text">Hi, I am Subham kumar das. I have been working as a Front-End developer with over 3+ years of enterprise application development expertise. I have strong experience in user interface design, Front-End web development and responsive web development. I began my career at the age of 20 by creating an own webpage.That gives me more interest and challenging. I also completed my SSC & +2 from kendriya vidyalaya. I completed my graduation from cenurion  university of technology & management in Computer Science & Engineering(CSE).</p>
-                    </div>                                   
-                </div>
-            </section>
-
-            <!--===== SKILLS =====-->
-            <section class="skills section" id="skills">
-                <h2 class="section-title">Skills</h2>
-
-                <div class="skills__container bd-grid">          
-                    <div>
-                        <h2 class="skills__subtitle">Professional Skills</h2>
-                        <p class="skills__text">
-                            <ul>
-  <li>3+ years of industry experience in Web Technologies, UI Development with Enterprise-grade applications and frameworks such as Angular & Ionic.</li>
-  <li>Hands on experience in HTML5, CSS3, SCSS, TypeScript, Angular, React, and Node.js.</li>
-  <li>Expertise in making Responsive Web Pages using PrimeNg, Pages UI, and Material UI.</li>
-  <li>Hands-on working experience in Angular and React.js based Single Page Applications (SPA).</li>
-  <li>Good experience in handling data using JSON, REST-API & RESTful web services.</li>
-  <li>Experience working in an Agile team environment.</li>
-  <li>Expertise in understanding the business requirement and identifying high-level scenarios.</li>
-  <li>Responsible for the production, modification, and maintenance of the website.</li>
-  <li>Strong problem-solving skills and coding, testing, and debugging strategies with an excellent understanding of system development methodologies, techniques, and tools.</li>
-  <li>Proactive and highly motivated team player with strong listening, communication, analytical, organizational, and time management skills.</li>
-  <li>Positive attitude towards learning new technologies.</li>
-</ul>
-</p>
-                        
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxl-html5 skills__icon'></i>
-                                <span class="skills__name">HTML5</span>
-                            </div>
-                            <div class="skills__bar skills__html">
-
-                            </div>
-                            <div>
-                                <span class="skills__percentage">95%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxl-css3 skills__icon'></i>
-                                <span class="skills__name">CSS3</span>
-                            </div>
-                            <div class="skills__bar skills__css">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">85%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxl-javascript skills__icon' ></i>
-                                <span class="skills__name">JAVASCRIPT</span>
-                            </div>
-                            <div class="skills__bar skills__js">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">65%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxs-paint skills__icon'></i>
-                                <span class="skills__name">Angular Devloper</span>
-                            </div>
-                            <div class="skills__bar skills__ux">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">85%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxs-paint skills__icon'></i>
-                                <span class="skills__name">React Devloper</span>
-                            </div>
-                            <div class="skills__bar skills__ux">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">85%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxs-paint skills__icon'></i>
-                                <span class="skills__name">Node js</span>
-                            </div>
-                            <div class="skills__bar skills__ux">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">55%</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>              
-                        <img src="assets/img/work3.jpg" alt="" class="skills__img">
-                    </div>
-                </div>
-            </section>
-
-            <!--===== WORK =====-->
-            <section class="work section" id="work">
-                <h2 class="section-title">Work</h2>
-
-                <div class="work__container bd-grid">
-                    <a href="" class="work__img">
-                        <img src="assets/img/work1.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work2.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work3.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work4.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work5.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work6.jpg" alt="">
-                    </a>
-                </div>
-            </section>
-
-            <!--===== CONTACT =====-->
-            <section class="contact section" id="contact">
-                <h2 class="section-title">Contact</h2>
-
-                <div class="contact__container bd-grid">
-                    <form action="" class="contact__form">
-                        <input type="text" placeholder="Name" class="contact__input">
-                        <input type="mail" placeholder="Email" class="contact__input">
-                        <textarea name="" id="" cols="0" rows="10" class="contact__input"></textarea>
-                        <input type="button" value="Enviar" class="contact__button button">
-                    </form>
-                </div>
-            </section>
-        </main>
-
-        <!--===== FOOTER =====-->
-        <footer class="footer">
-            <p class="footer__title">Subham</p>
-            <div class="footer__social">
-                <a href="#" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
-                <a href="#" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
-                <a href="#" class="footer__icon"><i class='bx bxl-twitter' ></i></a>
             </div>
-            <!-- <p class="footer__copy">&#169; Bedimcode. All rigths reserved</p> -->
-        </footer>
+        </section>
 
+       
+    </main>
 
-        <!--===== SCROLL REVEAL =====-->
-        <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer__title">Subham</p>
+        <div class="footer__social">
+            <a href="#" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
+            <a href="#" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
+            <a href="#" class="footer__icon"><i class='bx bxl-twitter' ></i></a>
+        </div>
+    </footer>
 
-        <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
-    </body>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="assets/js/main.js"></script>
+</body>
 </html>
